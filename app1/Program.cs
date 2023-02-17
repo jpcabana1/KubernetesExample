@@ -17,14 +17,14 @@ app.UseHttpsRedirection();
 app.MapGet("/weatherforecast", async (IConfiguration configuration, CancellationToken cancellationToken) =>
 {
     HttpClient client = new HttpClient();
-    IEnumerable<WeatherForecast> resp = null;
+    var resp = Enumerable.Empty<WeatherForecast?>();
 
     HttpResponseMessage response = await client.GetAsync(configuration.GetSection("Urls:app2").Get<string>() + "/weatherforecast");
-    if (response.IsSuccessStatusCode)
+    if (response.IsSuccessStatusCode && response!.Content != null)
     {
-        resp = await response!.Content!.ReadFromJsonAsync<IEnumerable<WeatherForecast>>(cancellationToken: cancellationToken)!;
+        resp = await response!.Content!.ReadFromJsonAsync<IEnumerable<WeatherForecast?>>(cancellationToken: cancellationToken)!;
     }
-    return resp!;
+    return resp;
    
 })
 .WithName("GetWeatherForecast")
