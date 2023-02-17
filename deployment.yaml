@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: kubernetes-example
+  name: kubernetes-example
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: kubernetes-example
+  template:
+    metadata:
+      labels:
+        run: kubernetes-example
+    spec:
+      containers:
+      - name: app1
+        image: app1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5001
+        env:
+          - name: Urls__App2
+            value: app2
+
+      - name: app2
+        image: app2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5002

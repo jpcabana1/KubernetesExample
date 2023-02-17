@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  app1:
+    container_name: app1
+    image: app1
+    ports:
+      - 5001
+    environment:
+      - Urls__app2=http://localhost:5002
+  app2:
+    container_name: app2
+    image: app2
+    ports:
+      - 5002
